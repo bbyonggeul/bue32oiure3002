@@ -6,6 +6,7 @@
 <meta name="description" content="수익 파이프라인 기획서 - 4스텝 워크북">
 <title>수익 파이프라인 기획서 (뿅글이 제작)</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 @font-face {
   font-family: 'ShinyebinHandwriting';
@@ -96,9 +97,13 @@ body {
 }
 
 .header .subtitle {
-  color: var(--text-mid);
-  font-size: 14px;
-  font-weight: 500;
+  font-family: 'ShinyebinHandwriting', 'Pretendard', sans-serif;
+  color: var(--purple-700);
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1.5;
+  margin-top: 4px;
 }
 
 .header-meta {
@@ -136,7 +141,7 @@ body {
 .progress-info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: center;
   font-size: 12.5px;
   color: var(--text-mid);
   font-weight: 500;
@@ -147,19 +152,24 @@ body {
   font-weight: 700;
 }
 
-.progress-track {
-  height: 6px;
-  background: var(--white);
-  border-radius: 3px;
-  overflow: hidden;
+.progress-dots {
+  display: flex;
+  gap: 7px;
 }
 
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--pink-500), var(--purple-500));
-  border-radius: 3px;
-  width: 0%;
-  transition: width 0.4s ease;
+.progress-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1.5px solid var(--border-soft);
+  transition: all 0.3s ease;
+}
+
+.progress-dot.filled {
+  background: var(--pink-500);
+  border-color: var(--pink-500);
+  transform: scale(1.05);
 }
 
 .step {
@@ -609,23 +619,29 @@ body {
 .promise-card {
   background: linear-gradient(135deg, var(--pink-50), var(--lavender-soft));
   border-radius: 14px;
-  padding: 24px 22px;
+  padding: 32px 22px 24px;
   border: 1.5px dashed var(--pink-300);
   position: relative;
-  overflow: hidden;
+  transform: rotate(-0.7deg);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 12px 32px rgba(93, 82, 201, 0.10),
+    0 20px 48px rgba(233, 30, 120, 0.06);
+  margin: 16px 4px 8px;
 }
 
 .promise-card::before {
   content: '';
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 100px;
-  height: 100px;
-  background: var(--pink-100);
-  border-radius: 50%;
-  opacity: 0.5;
-  z-index: 0;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2.5deg);
+  width: 88px;
+  height: 22px;
+  background: rgba(251, 196, 215, 0.6);
+  border-radius: 2px;
+  z-index: 3;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .promise-card > * { position: relative; z-index: 1; }
@@ -719,46 +735,44 @@ body {
 .action-bar {
   margin-top: 32px;
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .btn {
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-size: 13.5px;
+  padding: 14px 28px;
+  border-radius: 11px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   border: none;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
+  letter-spacing: -0.005em;
 }
 
-.btn-print {
+.btn-image {
   background: var(--pink-500);
   color: var(--white);
-  flex: 1;
-  min-width: 120px;
+  min-width: 220px;
+  box-shadow: 0 4px 12px rgba(233, 30, 120, 0.20);
 }
 
-.btn-print:hover { background: var(--pink-700); }
-
-.btn-save {
-  background: var(--purple-500);
-  color: var(--white);
-  flex: 1;
-  min-width: 120px;
+.btn-image:hover {
+  background: var(--pink-700);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(233, 30, 120, 0.25);
 }
 
-.btn-save:hover { background: var(--purple-700); }
-
-.btn-reset {
-  background: var(--white);
-  color: var(--text-mid);
-  border: 1.5px solid var(--border-soft);
+.btn-image:active {
+  transform: translateY(0);
 }
 
-.btn-reset:hover { color: var(--text-dark); }
+.btn-image:disabled {
+  background: var(--text-light);
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
 
 .toast {
   position: fixed;
@@ -808,6 +822,8 @@ body {
   .header h1 { font-size: 28px; }
   .step-title { font-size: 16px; }
   .rating-btn { font-size: 12px; height: 32px; }
+  .progress-info { flex-wrap: wrap; gap: 8px; }
+  .progress-dots { order: 3; width: 100%; justify-content: center; }
   .sim-result-wrap {
     margin-left: 0;
     margin-top: 6px;
@@ -832,21 +848,20 @@ body {
 <header class="header">
   <span class="header-tag">STEP 3 · MISSION</span>
   <h1>나의 첫 부수입 워크북</h1>
-  <p class="subtitle">월 30만원, 90일 안에. 15분 컷.</p>
-  <div class="header-meta">
-    <span>약 15분 소요</span>
-    <span>자동 저장</span>
-    <span>PDF 출력 가능</span>
-  </div>
+  <p class="subtitle">처음 도전할 부수입을 효율적으로 찾아봅시다 ! 할 수 있다!</p>
 </header>
 
 <div class="progress">
   <div class="progress-info">
     <span><strong id="prog-now">0</strong> / <span id="prog-total">0</span> 완료</span>
+    <div class="progress-dots">
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+    </div>
     <span id="prog-pct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div id="prog-bar" class="progress-bar"></div>
   </div>
 </div>
 
@@ -854,23 +869,22 @@ body {
 <section class="step" id="step-1">
   <div class="step-header">
     <div class="step-num">1</div>
-    <h2 class="step-title">내 카테고리 찾기</h2>
-    <span class="step-time">3분</span>
+    <h2 class="step-title">카테고리 찾아보기</h2>
   </div>
   <span class="step-note">너무 깊게 생각하지 마세요. 떠오르는 거 그대로 적으면 돼요.</span>
 
   <div class="field">
-    <label class="field-label">회사·생활에서 "나 이거 잘한다" 싶었던 거?</label>
+    <label class="field-label">회사·생활에서 "나 이거 잘한다" 싶었던 것은 어떤건가요?</label>
     <textarea class="field-textarea" data-field="q1" placeholder="업무·취미·습관 다 가능. 떠오르는 거 다 적어보세요"></textarea>
   </div>
 
   <div class="field">
-    <label class="field-label">사람들이 나한테 자주 물어보는 거?</label>
+    <label class="field-label">사람들이 나한테 자주 물어보는 것은 어떤건가요?</label>
     <textarea class="field-textarea" data-field="q2" placeholder="추천·방법·정보 뭐든. 남이 보는 내 강점이 진짜예요"></textarea>
   </div>
 
   <div class="field">
-    <label class="field-label">시간 가는 줄 모르고 빠지는 분야?</label>
+    <label class="field-label">시간 가는 줄 모르고 빠지는 분야가 있나요?</label>
     <textarea class="field-textarea" data-field="q3" placeholder="알고리즘이 채워진 곳에 진심이 있어요"></textarea>
   </div>
 
@@ -886,9 +900,8 @@ body {
   <div class="step-header">
     <div class="step-num">2</div>
     <h2 class="step-title">검증 & 숫자 잡기</h2>
-    <span class="step-time">5분</span>
   </div>
-  <span class="step-note">솔직하게 점수 매겨야 진짜 검증이 돼요.</span>
+  <span class="step-note">우리의 목적은 단순 자아실현이 아니라 수익창출 !</span>
 
   <div class="rating-row">
     <div class="rating-q"><span class="rating-q-num">Q1</span>이 카테고리에 이미 돈 버는 사람이 있나요?</div>
@@ -976,15 +989,14 @@ body {
 <section class="step" id="step-3">
   <div class="step-header">
     <div class="step-num">3</div>
-    <h2 class="step-title">90일 액션 플랜</h2>
-    <span class="step-time">3분</span>
+    <h2 class="step-title">앞으로 90일은 이렇게</h2>
   </div>
-  <span class="step-note">한 번에 다 하지 마세요. 매주 하나씩만 해도 충분해요.</span>
+  <span class="step-note">매주 하나씩 이렇게만 챙겨보세요!</span>
 
   <div class="plan-phase">
     <div class="plan-phase-head">
       <div class="plan-phase-title">준비기</div>
-      <div class="plan-phase-tag">WEEK 1-4</div>
+      <div class="plan-phase-tag">1개월차</div>
     </div>
     <div class="check-list">
       <label class="check-item"><input type="checkbox" data-field="plan-1-1"><span>이 카테고리 상위 5명 찾아서 분석하기</span></label>
@@ -995,18 +1007,18 @@ body {
   <div class="plan-phase" style="border-left-color: var(--success);">
     <div class="plan-phase-head">
       <div class="plan-phase-title">시작기</div>
-      <div class="plan-phase-tag" style="color: var(--success);">WEEK 5-8</div>
+      <div class="plan-phase-tag" style="color: var(--success);">2개월차</div>
     </div>
     <div class="check-list">
       <label class="check-item"><input type="checkbox" data-field="plan-2-1"><span>첫 결과물 공개·노출 (어디든)</span></label>
-      <label class="check-item"><input type="checkbox" data-field="plan-2-2"><span>첫 1원이라도 수익 만들기 ← 가장 큰 변곡점</span></label>
+      <label class="check-item"><input type="checkbox" data-field="plan-2-2"><span>첫 1원이라도 수익 만들기</span></label>
     </div>
   </div>
 
   <div class="plan-phase" style="border-left-color: var(--warning);">
     <div class="plan-phase-head">
       <div class="plan-phase-title">본격화</div>
-      <div class="plan-phase-tag" style="color: var(--warning);">WEEK 9-12</div>
+      <div class="plan-phase-tag" style="color: var(--warning);">3개월차</div>
     </div>
     <div class="check-list">
       <label class="check-item"><input type="checkbox" data-field="plan-3-1"><span>목표 달성 여부 점검 (70%면 합격)</span></label>
@@ -1015,7 +1027,7 @@ body {
   </div>
 
   <div class="danger-mini">
-    <div class="danger-mini-head">빨간 깃발 — 한 달에 한 번 체크</div>
+    <div class="danger-mini-head">잠깐 멈춰야 할 때 (자가진단)</div>
     <div class="check-list">
       <label class="check-item"><input type="checkbox" data-field="danger-1"><span>본업이 흔들린다 / 2주 이상 잠 5시간 미만</span></label>
       <label class="check-item"><input type="checkbox" data-field="danger-2"><span>친구·연인·가족 관계가 멀어졌다</span></label>
@@ -1029,9 +1041,7 @@ body {
   <div class="step-header">
     <div class="step-num">4</div>
     <h2 class="step-title">나와의 약속</h2>
-    <span class="step-time">1분</span>
   </div>
-  <span class="step-note">진짜로 지키기. 종이에 적힌 약속이 가장 강해요.</span>
 
   <div class="promise-card">
     <div class="promise-line">
@@ -1065,9 +1075,7 @@ body {
 </section>
 
 <div class="action-bar">
-  <button class="btn btn-save" id="btn-save" type="button">저장</button>
-  <button class="btn btn-print" onclick="window.print()" type="button">PDF 출력</button>
-  <button class="btn btn-reset" id="btn-reset" type="button">초기화</button>
+  <button class="btn btn-image" id="btn-image" type="button">이미지로 저장하기</button>
 </div>
 
 <div class="footer-note">
@@ -1171,7 +1179,7 @@ function calculateVerdict() {
   } else {
     box.classList.add('green');
     titleEl.textContent = '오 진행하세요!';
-    descEl.textContent = '검증 통과. 시간 쏟을 가치 있어요. STEP 3 액션 플랜으로 가세요.';
+    descEl.textContent = '검증 통과. 시간 쏟을 가치 있어요. STEP3 90일 플랜으로 가세요.';
   }
 }
 
@@ -1252,7 +1260,16 @@ function updateProgress() {
   document.getElementById('prog-now').textContent = done;
   document.getElementById('prog-total').textContent = total;
   document.getElementById('prog-pct').textContent = pct + '%';
-  document.getElementById('prog-bar').style.width = pct + '%';
+
+  // Update dots (5 levels: 1-20%, 21-40%, 41-60%, 61-80%, 81-100%)
+  const dotsFilled = pct === 0 ? 0 : Math.ceil((pct / 100) * 5);
+  document.querySelectorAll('.progress-dot').forEach(function(dot, index) {
+    if (index < dotsFilled) {
+      dot.classList.add('filled');
+    } else {
+      dot.classList.remove('filled');
+    }
+  });
 }
 
 let saveTimer;
@@ -1325,15 +1342,54 @@ function loadData() {
   } catch (e) {}
 }
 
-document.getElementById('btn-save').addEventListener('click', function() {
-  autoSave();
-  showToast('저장됐어요');
-});
+document.getElementById('btn-image').addEventListener('click', function() {
+  const btn = this;
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '이미지 만드는 중...';
 
-document.getElementById('btn-reset').addEventListener('click', function() {
-  if (!confirm('처음부터 다시 하시겠어요?')) return;
-  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-  location.reload();
+  const container = document.querySelector('.container');
+  const progressEl = document.querySelector('.progress');
+  const actionBar = document.querySelector('.action-bar');
+
+  // 캡처 중에는 sticky progress와 버튼 숨기기
+  const originalProgressPosition = progressEl.style.position;
+  progressEl.style.position = 'static';
+  actionBar.style.display = 'none';
+
+  html2canvas(container, {
+    backgroundColor: '#FFFFFF',
+    scale: 2,
+    useCORS: true,
+    logging: false,
+    windowWidth: container.scrollWidth,
+    windowHeight: container.scrollHeight
+  }).then(function(canvas) {
+    // 원래대로 복구
+    progressEl.style.position = originalProgressPosition;
+    actionBar.style.display = '';
+
+    // 다운로드
+    const link = document.createElement('a');
+    const today = new Date();
+    const dateStr = today.getFullYear() + '-' +
+                   String(today.getMonth() + 1).padStart(2, '0') + '-' +
+                   String(today.getDate()).padStart(2, '0');
+    link.download = '나의-첫-부수입-워크북_' + dateStr + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    btn.disabled = false;
+    btn.textContent = originalText;
+    showToast('이미지로 저장됐어요');
+  }).catch(function(err) {
+    progressEl.style.position = originalProgressPosition;
+    actionBar.style.display = '';
+    btn.disabled = false;
+    btn.textContent = originalText;
+    showToast('저장에 실패했어요. 다시 시도해주세요');
+    console.error(err);
+  });
 });
 
 function showToast(msg) {
