@@ -650,11 +650,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 6px;
-  margin-bottom: 14px;
+  gap: 4px;
+  margin-bottom: 10px;
   font-family: 'ShinyebinHandwriting', 'Pretendard', sans-serif;
   font-size: 17px;
-  line-height: 1.8;
+  line-height: 1.65;
   color: var(--text-dark);
   letter-spacing: 0.005em;
 }
@@ -663,13 +663,13 @@ body {
   background: rgba(255, 255, 255, 0.85);
   border: none;
   border-bottom: 1.5px solid var(--pink-300);
-  padding: 4px 8px;
+  padding: 2px 8px;
   font-family: inherit;
-  font-size: 13.5px;
+  font-size: 17px;
   color: var(--pink-700);
   font-weight: 700;
   border-radius: 4px 4px 0 0;
-  min-width: 80px;
+  min-width: 70px;
   text-align: center;
 }
 
@@ -679,7 +679,44 @@ body {
   background: var(--white);
 }
 
-.promise-line input.wide { min-width: 140px; flex: 1; }
+.promise-line input.wide { min-width: 130px; flex: 0 0 auto; }
+
+.promise-time-input {
+  min-width: 40px !important;
+  max-width: 55px !important;
+  width: 50px;
+}
+
+.promise-time-input::-webkit-outer-spin-button,
+.promise-time-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.promise-time-input {
+  -moz-appearance: textfield;
+}
+
+.promise-greeting {
+  font-family: 'ShinyebinHandwriting', 'Pretendard', sans-serif;
+  font-size: 19px;
+  color: var(--pink-700);
+  margin-bottom: 10px;
+  letter-spacing: 0.005em;
+  line-height: 1.4;
+}
+
+.promise-closing {
+  font-family: 'ShinyebinHandwriting', 'Pretendard', sans-serif;
+  font-size: 18px;
+  color: var(--pink-700);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--pink-200);
+  text-align: right;
+  letter-spacing: 0.005em;
+  line-height: 1.4;
+}
 
 .promise-vow {
   display: flex;
@@ -702,31 +739,35 @@ body {
 }
 
 .promise-sign {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--pink-200);
+  margin-top: 14px;
+  padding-top: 0;
+  border-top: none;
   display: flex;
   gap: 12px;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .sign-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-mid);
-  letter-spacing: 0.04em;
+  font-family: 'ShinyebinHandwriting', 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--pink-700);
+  letter-spacing: 0.005em;
 }
 
 .sign-input {
-  flex: 1;
+  flex: 0 0 auto;
+  width: 110px;
   background: var(--white);
   border: 1.5px solid var(--pink-300);
-  padding: 7px 11px;
-  font-family: inherit;
-  font-size: 13.5px;
-  font-weight: 700;
+  padding: 6px 10px;
+  font-family: 'ShinyebinHandwriting', 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
   color: var(--pink-700);
   border-radius: 7px;
+  text-align: center;
 }
 
 .sign-input:focus { outline: none; border-color: var(--pink-500); }
@@ -1040,10 +1081,12 @@ body {
 <section class="step" id="step-4">
   <div class="step-header">
     <div class="step-num">4</div>
-    <h2 class="step-title">나와의 약속하기</h2>
+    <h2 class="step-title">90일 뒤 나에게 보내는 약속</h2>
   </div>
 
   <div class="promise-card">
+    <div class="promise-greeting">90일 뒤의 나에게,</div>
+
     <div class="promise-line">
       나
       <input type="text" data-field="promise-name" placeholder="이름">
@@ -1051,25 +1094,23 @@ body {
       <input type="date" data-field="promise-start" class="wide">
       부터
       <input type="date" data-field="promise-end" class="wide">
-      까지
+      까지의 90일 동안
     </div>
 
+    <div class="promise-line" style="margin-bottom: 2px;">
+      <strong style="color: var(--pink-700);"><span id="echo-category">_____</span></strong> 에 진심을 쏟고,
+    </div>
     <div class="promise-line">
-      <strong style="color: var(--pink-700);"><span id="echo-category">_____</span></strong> 카테고리에
       매주
-      <input type="text" data-field="promise-time" placeholder="N시간" style="min-width: 80px;">
-      이상 투자하고,
-      첫 1원을 만들어내겠다.
+      <input type="number" data-field="promise-time" placeholder="N" min="0" class="promise-time-input">
+      시간 이상 써서 작더라도 목표한 금액, 꼭 만들어볼게.
     </div>
 
-    <div class="promise-vow">
-      <span class="vow-mark">✓</span>
-      <span>본업은 부업의 안전망. 결과보다 과정에 집중하고, 실패해도 그 시간이 다음 단계의 자산임을 안다.</span>
-    </div>
+    <div class="promise-closing">90일 뒤의 너에게, 부끄럽지 않게.</div>
 
     <div class="promise-sign">
-      <span class="sign-label">서명</span>
-      <input type="text" class="sign-input" data-field="signature" placeholder="이름 또는 닉네임">
+      <span class="sign-label">— 오늘의 나</span>
+      <input type="text" class="sign-input" data-field="signature" placeholder="이름">
     </div>
   </div>
 </section>
@@ -1124,6 +1165,22 @@ document.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
 document.querySelectorAll('input[type="text"], input[type="date"], input[type="number"], textarea').forEach(function(input) {
   input.addEventListener('input', onChange);
 });
+
+// 시작 날짜 입력하면 종료 날짜를 90일 뒤로 자동 설정
+const promiseStart = document.querySelector('[data-field="promise-start"]');
+const promiseEnd = document.querySelector('[data-field="promise-end"]');
+if (promiseStart && promiseEnd) {
+  promiseStart.addEventListener('change', function() {
+    if (!this.value) return;
+    const start = new Date(this.value);
+    start.setDate(start.getDate() + 90);
+    const year = start.getFullYear();
+    const month = String(start.getMonth() + 1).padStart(2, '0');
+    const day = String(start.getDate()).padStart(2, '0');
+    promiseEnd.value = year + '-' + month + '-' + day;
+    promiseEnd.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+}
 
 function onChange() {
   autoSave();
